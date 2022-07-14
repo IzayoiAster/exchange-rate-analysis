@@ -1,0 +1,48 @@
+运行
+docker-compose up
+
+后台运行
+docker-compose up -d
+
+关闭
+docker-compose down
+
+进入
+docker-compose exec hive-server bash
+
+连接Hive
+/opt/hive/bin/beeline -u jdbc:hive2://localhost:10000
+如果不好用，就用这个
+/opt/hive/bin/beeline -u jdbc:hive2://
+
+创建表
+CREATE TABLE pokes (foo INT, bar STRING);
+
+导入数据
+LOAD DATA LOCAL INPATH '/opt/hive/examples/files/kv1.txt' OVERWRITE INTO TABLE pokes;
+
+导出数据到本地目录（到HDFS则去掉 local）
+insert overwrite local directory '/opt/export'
+row format delimited fields terminated by '\t' 
+select * from test;
+
+向docker复制文件（参数为容器id，使用docker container ls或直接在docker desktop查看）
+docker cp test.txt 44cd82d005b6:test.txt
+
+从docker复制文件
+docker cp 44cd82d005b6:/opt/export/000000_0 000000_0
+
+HDFS查看目录
+hdfs dfs -ls /test
+
+暴露postgre端口（暂时没啥用）
+  hive-metastore-postgresql:
+    image: bde2020/hive-metastore-postgresql:2.3.0
+    ports:
+      - "5432:5432"
+
+在docker desktop里查看namenode的端口号即可从网页访问
+
+远程直接连接hive有点难，连presto
+先开启metastore
+hive --service metastore

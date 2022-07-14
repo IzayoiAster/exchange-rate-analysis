@@ -1,0 +1,22 @@
+beeline -u jdbc://hive2
+
+create table test (ratetime STRING, ratevalue STRING);
+create table per1m (start_time STRING, end_time STRING, start_rate STRING, end_rate STRING, max_rate STRING, min_rate STRING, ave_rate STRING);
+create table per5m (start_time STRING, end_time STRING, start_rate STRING, end_rate STRING, max_rate STRING, min_rate STRING, ave_rate STRING);
+create table per10m (start_time STRING, end_time STRING, start_rate STRING, end_rate STRING, max_rate STRING, min_rate STRING, ave_rate STRING);
+create table per30m (start_time STRING, end_time STRING, start_rate STRING, end_rate STRING, max_rate STRING, min_rate STRING, ave_rate STRING);
+create table per1h (start_time STRING, end_time STRING, start_rate STRING, end_rate STRING, max_rate STRING, min_rate STRING, ave_rate STRING);
+
+docker cp test.txt b5bb898a209b:/opt/test.txt
+docker cp per1m.txt b5bb898a209b:/opt/per1m.txt
+docker cp per5m.txt b5bb898a209b:/opt/per5m.txt
+docker cp per10m.txt b5bb898a209b:/opt/per10m.txt
+docker cp per30m.txt b5bb898a209b:/opt/per30m.txt
+docker cp per1h.txt b5bb898a209b:/opt/per1h.txt
+
+LOAD DATA LOCAL INPATH '/opt/test.txt' OVERWRITE INTO TABLE test;
+LOAD DATA LOCAL INPATH '/opt/per1m.txt' OVERWRITE INTO TABLE per1m;
+LOAD DATA LOCAL INPATH '/opt/per5m.txt' OVERWRITE INTO TABLE per5m;
+LOAD DATA LOCAL INPATH '/opt/per10m.txt' OVERWRITE INTO TABLE per10m;
+LOAD DATA LOCAL INPATH '/opt/per30m.txt' OVERWRITE INTO TABLE per30m;
+LOAD DATA LOCAL INPATH '/opt/per1h.txt' OVERWRITE INTO TABLE per1h;

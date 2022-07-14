@@ -1,0 +1,12 @@
+server:
+  port: 8889
+
+spring:
+  application:
+    name: data_get
+  # datasource
+  datasource:
+    url: 
+    username: 
+    password: 
+    driver-class-name: com.mysql.cj.jdbc.Driver
